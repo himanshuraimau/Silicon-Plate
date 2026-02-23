@@ -37,6 +37,7 @@ def load_dimensions(df: pd.DataFrame, engine) -> dict:
         # dims first so we can get PKs back for the fact table
         locs = (
             df[["location", "zone"]]
+            .dropna(subset=["location"])
             .drop_duplicates()
             .rename(columns={"location": "neighbourhood"})
             .reset_index(drop=True)
@@ -54,6 +55,7 @@ def load_dimensions(df: pd.DataFrame, engine) -> dict:
 
         cuisines = (
             df[["primary_cuisine"]]
+            .dropna(subset=["primary_cuisine"])
             .drop_duplicates()
             .rename(columns={"primary_cuisine": "cuisine_name"})
             .reset_index(drop=True)
@@ -106,6 +108,8 @@ def load_fact(df: pd.DataFrame, ids: dict, engine) -> None:
             "book_table": "book_table_flag",
         }
     )
+    # drop rows where any FK is unmapped (null location etc.)
+    fact_df = fact_df.dropna(subset=["restaurant_id", "location_id"])
 
     with engine.connect() as conn:
         fact_df.to_sql(
