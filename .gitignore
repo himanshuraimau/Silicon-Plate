@@ -50,3 +50,16 @@ Thumbs.db
 # Logs
 *.log
 logs/
+
+# Scratch / test files
+try.py
+
+# Internal planning notes
+plan.md
+ml-plan.md
+
+# QuickSight PDF exports
+*.pdf
+
+# Bedrock experiments
+/amaozn-bedrock-test
