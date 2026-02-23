@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# uv / virtual environments
+.venv/
+venv/
+env/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data — never commit raw/large data files
+data/raw/
+data/cleaned/
+*.csv
+*.zip
+*.parquet
+
+# Secrets / credentials
+.env
+.env.*
+secrets.py
+credentials.json
+*.pem
+*.key
+aws_credentials
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# uv lock (keep uv.lock, ignore nothing here — but keep .python-version)
+# Logs
+*.log
+logs/
