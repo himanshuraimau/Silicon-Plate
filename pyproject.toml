@@ -1,0 +1,15 @@
+[project]
+name = "silicon-plate"
+version = "0.1.0"
+description = "Bengaluru Food Intelligence Platform — end-to-end BI on 51k Zomato restaurant listings"
+requires-python = ">=3.12"
+dependencies = [
+    "boto3>=1.38.0",
+    "ipykernel>=7.2.0",
+    "matplotlib>=3.10.8",
+    "notebook>=7.5.3",
+    "pandas>=3.0.1",
+    "psycopg2-binary>=2.9.0",
+    "seaborn>=0.13.2",
+    "sqlalchemy>=2.0.0",
+]
