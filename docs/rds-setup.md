@@ -13,15 +13,25 @@ Go to **S3 → Create bucket**
 
 Go to **RDS → Create database**
 
-- Engine: PostgreSQL
-- Template: **Free tier**
-- DB instance identifier: `silicon-plate-db`
-- Master username: `postgres`
-- Master password: (set something, you'll put it in .env)
-- Instance type: `db.t3.micro`
-- Storage: 20 GB gp2 (default)
-- Public access: **Yes** (so you can connect from your machine)
-- VPC security group: create new, or use default — add an inbound rule for port `5432` from your IP
+> ⚠️ Make sure you pick **PostgreSQL**, NOT Aurora. Aurora costs ~$2000/month. Plain RDS PostgreSQL has a free tier.
+
+Settings to use:
+
+| Field | Value |
+|---|---|
+| Engine | PostgreSQL |
+| Template | **Free tier** |
+| DB instance identifier | `silicon-plate-db` |
+| Master username | `postgres` |
+| Credentials management | Self managed |
+| Master password | (your choice) |
+| Instance type | `db.t3.micro` (auto-set by free tier) |
+| Storage | 20 GB gp2 |
+| Public access | **Yes** |
+| VPC security group | Create new → name it `silicon-plate-sg` |
+| Initial database name | `zomatodb` ← set this under **Additional configuration** |
+
+The "Initial database name" field saves you from having to create it manually.
 
 After it launches (~5 mins), grab the **Endpoint** from the RDS console. Looks like:
 
@@ -29,20 +39,13 @@ After it launches (~5 mins), grab the **Endpoint** from the RDS console. Looks l
 silicon-plate-db.xxxxxxxxxx.ap-south-1.rds.amazonaws.com
 ```
 
-## 3. Create the database
+Then allow your IP on port 5432:
+- Go to the security group → Inbound rules → Add rule
+- Type: PostgreSQL, Port: 5432, Source: My IP
 
-Connect via psql and create the DB:
+## 3. Run the schema
 
-```bash
-psql -h <your-endpoint> -U postgres -p 5432
-```
-
-```sql
-CREATE DATABASE zomatodb;
-\q
-```
-
-Then run the schema:
+No need to create the database manually (done via "Initial database name" above). Just run:
 
 ```bash
 psql -h <your-endpoint> -U postgres -d zomatodb -f sql/01_create_schema.sql

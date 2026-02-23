@@ -134,7 +134,7 @@ Amazon QuickSight ← BI Layer — dashboard + visualizations
 |---|---|
 | **Python + pandas** | Industry standard for ETL scripting; you're already comfortable |
 | **Amazon S3** | Acts as the data lake; staging area before loading to RDS |
-| **Amazon RDS PostgreSQL** | Relational DB for the star schema; free tier (750 hrs/month); QuickSight connects natively |
+| **Amazon RDS PostgreSQL** | Relational DB for the star schema; free tier (750 hrs/month on db.t3.micro); QuickSight connects natively. Use plain RDS, not Aurora. |
 | **Amazon QuickSight** | Amazon's own BI tool — huge talking point in Amazon interview; native AWS integration |
 
 > **Why RDS over Redshift?** At 51k rows, Redshift's columnar storage and MPP architecture would be overkill and cost money. RDS PostgreSQL is appropriate here. At 10M+ rows with multiple concurrent analysts, the architecture would shift to Redshift Serverless — the schema design is identical, just the engine changes.
@@ -524,7 +524,7 @@ bengaluru-food-intelligence/
 - [ ] Run `uv run python etl/01_extract.py` — inspect EDA output
 - [ ] Run `uv run python etl/02_transform.py` — verify cleaned CSV
 - [ ] Set up AWS S3 bucket — `silicon-plate-data`
-- [ ] Launch RDS PostgreSQL free tier (`db.t3.micro`, `zomatodb`)
+- [ ] Launch RDS **PostgreSQL** free tier (`db.t3.micro`) — NOT Aurora (Aurora costs $2000+/month)
 - [ ] Run `sql/01_create_schema.sql` against RDS — create all 5 tables
 - [ ] Run `uv run python etl/03_load.py` — load all tables
 - [ ] Verify row counts in RDS (fact table should have ~51k rows)
